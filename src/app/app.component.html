@@ -1,20 +1,67 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+
+<div class="navbar-fixed">
+  <nav role="navigation" class="light-blue lighten-1">
+    <div class="nav-wrapper container">
+      <ul class="left">
+        <li>
+          <a id="sidebar-button" materialize="sideNav" class="button-collapse" data-activates="sidebar"><i class="mdi-navigation-menu material-icons">menu</i></a>
+        </li>
+        <li>
+          <a href="/" class="flow-text">
+            <img src="/assets/logo_48x48.png" style="vertical-align: middle; height: 48px;" alt="">
+            <span class="hide-on-med-and-down">La Colère d'Aurile</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="right">
+        <li *ngIf="user.account !== ''" class="flow-text">{{user.account}}</li>
+        <li>
+          <a *ngIf="user.account === ''" id="modal-login-button" class="btn waves-effect waves-light modal-trigger" (click)="login()">
+            Connexion
+          </a>
+          <a *ngIf="user.account !== ''" (click)="logout()">
+            <i class="material-icons right">exit_to_app</i><span class="hide-on-med-and-down">Déconnexion</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </nav>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
+<ul id="sidebar" class="side-nav fixed">
+  <li class="admin-browse-account" *ngIf="user.isAdmin">
+    <input type="text" [(ngModel)]="accountToBrowse" (keyup.enter)="onAccountToBrowseSet()">
+  </li>
+  <li *ngIf="user.account !== ''">
+    <a routerLink="/{{accountToBrowse}}/account/" (click)="closeSideNav()" class="activable">
+      <i class="material-icons left">settings</i>
+      Mon compte
+    </a>
+  </li>
+  <li *ngIf="user.account !== ''">
+    <a routerLink="/{{accountToBrowse}}/vault/" (click)="closeSideNav()" class="activable">
+      <i class="material-icons left">face</i>
+      Personnages
+    </a>
+  </li>
+  <li *ngIf="user.account !== ''"><hr></li>
+  <li *ngIf="user.account === ''">
+    <a routerLink="/newaccount" (click)="closeSideNav()" class="activable">
+      <i class="material-icons left">add_circle_outline</i>
+      Nouveau compte
+    </a>
   </li>
   <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
+    <a href="http://lacoleredaurile.xooit.fr/" (click)="closeSideNav()" class="activable">
+      <i class="material-icons left">forum</i>
+      Forum
+    </a>
   </li>
 </ul>
 
+<!-- PAGE CONTENT -->
+<main>
+  <div class="container" style="padding-top: 10px;">
+    <router-outlet></router-outlet>
+  </div>
+</main>

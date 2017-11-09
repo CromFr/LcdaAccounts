@@ -1,0 +1,51 @@
+<h1 class="center">{{account}}</h1><!-- TODO: decode UriEncoded string -->
+
+<hr>
+
+<h4>Changer le mot de passe</h4>
+<form class="container" (ngSubmit)="changePassword()">
+	<div class="input-field">
+		<div class="material-icons prefix">lock_open</div>
+		<input #password_old="ngModel" name="password-old" id="password-old" type="password" class="validate" [(ngModel)]="changePasswordForm.oldPassword">
+		<label *ngIf="!appComponent.user.isAdmin" for="password-old">Ancien mot de passe</label>
+		<label *ngIf="appComponent.user.isAdmin" for="password-old">Mot de passe admin de {{appComponent.user.account}}</label>
+	</div>
+	<div class="input-field">
+		<div class="material-icons prefix">lock</div>
+		<input #password_new="ngModel" name="password-new" id="password-new" type="password" class="validate" [(ngModel)]="changePasswordForm.newPassword">
+		<label for="password-new">Nouveau mot de passe</label>
+	</div>
+	<div class="input-field">
+		<div class="material-icons prefix">check</div>
+		<input #password_check="ngModel" name="password-check" id="password-check" type="password" [ngClass]="{
+				valid:   passwordMatch(),
+				invalid: !passwordMatch()
+			}" [(ngModel)]="changePasswordForm.newPasswordCheck">
+		<label for="password-check">Nouveau mot de passe (vérification)</label>
+	</div>
+	<div class="input-field">
+		<i class="btn waves-effect waves-light waves-input-wrapper" [ngClass]="{
+				disabled: !passwordMatch()
+			}">
+			<input class="waves-button-input" type="submit" value="Changer">
+		</i>
+	</div>
+</form>
+
+<h4>Tokens d'authentification</h4>
+<table class="highlight">
+	<thead>
+		<tr>
+			<th class="tooltipped" data-tooltip="Nom de l'application utilisant le token">Nom</th>
+			<th class="tooltipped" data-tooltip="Les tokens privilégiés permettent de modifier l'accès au compte">Type</th>
+			<th>Dernière utilisation</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let token of tokenList">
+			<td>{{token}}</td><td></td><td></td><td><a class="btn-floating blue" (click)="removeToken(token)"><i class="material-icons">delete_forever</i></a></td>
+		</tr>
+
+	</tbody>
+</table>

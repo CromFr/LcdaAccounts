@@ -1,0 +1,54 @@
+
+
+
+<div class="row">
+	<h3>Personnages actifs</h3>
+	<table class="highlight">
+		<thead>
+			<tr>
+				<th>Nom</th>
+				<th>Race</th>
+				<th>Niveau</th>
+				<th>Classe(s)</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let character of activeChars">
+				<td class="flow-text"><a (click)="gotoCharDetails(character, false)">{{character.name}}</a></td>
+				<td>{{character.race}}</td>
+				<td>{{character.lvl}}</td>
+				<td>
+					<span *ngFor="let cl of character.classes">
+						{{cl.name}} ({{cl.lvl}})
+					</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="row">
+	<h3>Personnages supprimés</h3>
+	<table class="highlight">
+		<thead>
+			<tr>
+				<th>Nom</th>
+				<th>Race</th>
+				<th>Niveau</th>
+				<th>Classe(s)</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let character of backupChars">
+				<td class="flow-text"><a (click)="gotoCharDetails(character, true)">{{character.name}}</a></td>
+				<td>{{character.race}}</td>
+				<td>{{character.lvl}}</td>
+				<td>
+					<span *ngFor="let cl of character.classes">
+						{{cl.name}} ({{cl.lvl}})
+					</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
