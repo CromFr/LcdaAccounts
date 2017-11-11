@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
-import { ApiService, Character, CharMetadata } from '../api.service';
+import { ApiService, Token } from '../api.service';
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
 
@@ -20,20 +20,26 @@ export class AccountComponent implements OnInit {
     newPasswordCheck: '',
   };
 
-  tokenList: string[];
+  private tokenList: Token[];
 
   constructor(private apiService: ApiService, private appComponent: AppComponent, private route: ActivatedRoute, private router: Router) { }
 
 
   ngOnInit(): void {
     this.account = this.route.snapshot.paramMap.get('account');
+    this.updateTokenList();
+  }
 
-
+  private updateTokenList(): void {
     this.apiService.getAccountTokenList(this.account).subscribe(
       data => {
         this.tokenList = data;
+        console.log(data);
       },
-      err => { toast('Error: ' + err, 5000, 'red'); });
+      err => {
+        console.error('getAccountTokenList: ', err);
+        toast('Error: ' + err.error, 5000, 'red darken-3');
+      });
   }
 
   passwordMatch(): boolean {
@@ -41,13 +47,52 @@ export class AccountComponent implements OnInit {
   }
 
   changePassword(): void {
-    toast('Not implemented', 5000, 'red');
-    this.changePasswordForm.oldPassword = '';
-    this.changePasswordForm.newPassword = '';
-    this.changePasswordForm.newPasswordCheck = '';
+    this.apiService.setAccountPassword(this.account, this.changePasswordForm.oldPassword, this.changePasswordForm.newPassword).subscribe(
+      () => {
+        toast('Mot de passe modifié', 5000, 'green');
+
+        this.changePasswordForm.oldPassword = '';
+        this.changePasswordForm.newPassword = '';
+        this.changePasswordForm.newPasswordCheck = '';
+      },
+      err => {
+        console.error('setAccountPassword: ', err);
+
+        let errorMessage;
+        switch (err.status) {
+          case 409:
+            errorMessage = 'Ancien mot de passe incorrect';
+            break;
+          default:
+            errorMessage = err.error;
+        }
+        toast('Impossible de changer le mot de passe: ' + errorMessage, 5000, 'red darken-3');
+
+        this.changePasswordForm.oldPassword = '';
+      });
+
   }
-  removeToken(token: string): void {
-    toast('Not implemented', 5000, 'red');
+  removeToken(token: Token): void {
+    this.apiService.deleteAccountToken(this.account, token.id).subscribe(
+      () => {
+        this.updateTokenList();
+        toast('Token supprimé', 5000, 'green');
+      },
+      err => {
+        console.error('deleteAccountToken: ', err);
+
+        let errorMessage;
+        switch (err.status) {
+          case 404:
+            errorMessage = 'Token (id=' + token.id + ') introuvable';
+            break;
+          default:
+            errorMessage = err.error;
+        }
+        toast('Impossible de supprimer le token: ' + errorMessage, 5000, 'red darken-3');
+
+        this.changePasswordForm.oldPassword = '';
+      });
   }
 
 

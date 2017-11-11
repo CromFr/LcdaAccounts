@@ -24,12 +24,18 @@ export class CharListComponent implements OnInit {
       list => {
         this.activeChars = list;
       },
-      err => { toast('Error: ' + err, 5000, 'red'); });
+      err => {
+        console.error('getCharList: ', err);
+        toast('Error: ' + err.error, 5000, 'red darken-3');
+      });
     this.apiService.getCharList(this.account, true).subscribe(
       list => {
         this.backupChars = list;
       },
-      err => { toast('Error: ' + err, 5000, 'red'); });
+      err => {
+        console.error('getCharList: ', err);
+        toast('Error: ' + err.error, 5000, 'red darken-3');
+      });
   }
 
   gotoCharDetails(character: LightCharacter, deleted: boolean) {

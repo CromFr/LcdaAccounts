@@ -2,12 +2,17 @@
 		{{character?.name}}
 		<span class="flow-text" style="vertical-align: middle">{{backupChar? "(Supprimé)" : ""}}</span>
 </h1>
+<h5 class="char-subtitle center grey-text">
+		{{meta?.subTitle === '' ? 'Pas de description' : meta?.subTitle}} <a class="modal-trigger" href="#modal-edit-subtitle" materialize="modal"><i class="material-icons">mode_edit</i></a>
+</h5>
 
 <div class="row">
 	<ul class="tabs" materialize="tabs">
 		<li class="tab"><a href="#details-general">Général</a></li>
 		<li class="tab"><a href="#details-build">Build</a></li>
 		<li class="tab"><a href="#details-quests">Quêtes</a></li>
+		<li class="tab"><a href="#details-dungeons">Donjons</a></li>
+		<li class="tab"><a href="#details-notes">Notes</a></li>
 	</ul>
 	<!-- =================================================== -->
 	<div id="details-general">
@@ -103,8 +108,8 @@
 		<div class="row">
 			<div class="row">
 				<a class="dropdown-button btn-large" [ngClass]="{disabled: controlsDisabled()}" href="#" data-activates="dropdown-public" materialize="dropdown">Visibilité:
-					<span *ngIf="meta?.public===false"><i class="material-icons left">lock</i> Privé</span>
-					<span *ngIf="meta?.public===true"><i class="material-icons left">public</i> Public</span>
+					<span *ngIf="meta?.isPublic===false"><i class="material-icons left">lock</i> Privé</span>
+					<span *ngIf="meta?.isPublic===true"><i class="material-icons left">public</i> Public</span>
 				</a>
 				<ul id="dropdown-public" class="dropdown-content">
 					<li><a (click)="setPublic(false)" class="tooltipped" materialize="tooltip" data-position="right" data-tooltip="Vous seul aurez accès à cette page (défaut)"><i class="material-icons left">lock</i> Privé</a></li>
@@ -146,7 +151,7 @@
 			</thead>
 			<tbody>
 				<tr *ngFor="let lvl of character?.leveling; let i = index">
-					<td>{{i+1}}</td>
+					<td class="{{classColors[lvl.className]}}">{{i+1}}</td>
 					<td>{{lvl.className}}</td>
 					<td>{{lvl.ability!==""? "+1 "+lvl.ability : ""}}</td>
 					<td>
@@ -171,14 +176,96 @@
 	</div>
 	<!-- =================================================== -->
 	<div id="details-quests">
+		<p class="filters">
+			<input id="quest-filter-unknown" type="checkbox" class="filled-in" [(ngModel)]="questFilter.unknown"/>
+			<label for="quest-filter-unknown">Non découverte</label>
+			<input id="quest-filter-pending" type="checkbox" class="filled-in" [(ngModel)]="questFilter.pending"/>
+			<label for="quest-filter-pending">En cours</label>
+			<input id="quest-filter-finished" type="checkbox" class="filled-in" [(ngModel)]="questFilter.finished"/>
+			<label for="quest-filter-finished">Terminée</label>
+		</p>
 		<ul class="modal-content collapsible" data-collapsible="expandable" materialize="collapsible">
-			<li *ngFor="let quest of sortedJournalEntries()">
+			<li *ngFor="let quest of questList()">
 				<div class="collapsible-header" [style.color]="quest.state===2? '#999' : ''">
 					<i class="material-icons">{{quest.state===0? "clear" : quest.state===1? "directions_run" : "done"}}</i>{{quest.name}}
 				</div>
 				<div class="collapsible-body"><p>{{quest.description}}</p></div>
 			</li>
 		</ul>
+	</div>
+	<!-- =================================================== -->
+	<div id="details-dungeons">
+		<p class="filters">
+			<input id="dungeon-filter-missingkinder" type="checkbox" class="filled-in" checked="checked" [(ngModel)]="dungeonFilter.hasMissingKinder"/>
+			<label for="dungeon-filter-missingkinder">Kinders non récupérés</label>
+			<input id="dungeon-filter-augdifficulties" type="checkbox" class="filled-in" checked="checked" [(ngModel)]="dungeonFilter.hasDifficulties"/>
+			<label for="dungeon-filter-augdifficulties">Difficulté augmentée</label>
+		</p>
+		<table class="bordered striped">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th *ngFor="let diff of difficulties" class="{{diff.color}} lighten-3">
+						{{diff.name}}
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let dungeon of dungeonList()">
+					<td><span class="flow-text">{{dungeon.name}}</span><br/><em class="grey-text">{{dungeon.areaName}}</em></td>
+
+					<td *ngFor="let diff of difficulties" class="{{diff.color}} lighten-3" [ngClass]="{grey: dungeon.diffMax < diff.id}">
+						<i *ngIf="dungeon.killedBoss[diff.id] === true" class="ra ra-skull tooltipped"
+							materialize="tooltip" data-tooltip="Boss tué"></i>
+						<i *ngIf="dungeon.lootedChests[diff.id] === true" class="ra ra-trophy tooltipped"
+							materialize="tooltip" data-tooltip="Kinder récupéré"></i>
+						<i *ngIf="dungeon.diffMax >= diff.id &amp;&amp; dungeon.unlockedDiff < diff.id" class="ra ra-interdiction tooltipped"
+							materialize="tooltip" data-tooltip="Difficulté verrouillée"></i>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- =================================================== -->
+	<div id="details-notes">
+		<div class="input-field">
+			<textarea #form_notes="ngModel" id="notes-content" class="materialize-textarea"
+				[ngClass]="{disabled: controlsDisabled()}"
+				[(ngModel)]="formNotes"></textarea>
+			<label for="notes-content">Notes</label>
+
+			<a (click)="formNotes = this.meta?.notes"
+				[ngClass]="{disabled: controlsDisabled() || this.formNotes == this.meta?.notes}"
+				class="waves-effect waves-light btn red"><i class="material-icons left">cancel</i>Annuler</a>
+			<a (click)="setSubNotes(formNotes)"
+				[ngClass]="{disabled: controlsDisabled() || this.formNotes == this.meta?.notes}"
+				class="waves-effect waves-light btn green"><i class="material-icons left">save</i>Sauvegarder</a>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="modal-edit-subtitle" class="modal" materialize="modal">
+	<div class="modal-content">
+		<h4>Description du personnage</h4>
+		<input #form_subtitle="ngModel" [(ngModel)]="formSubtitle">
+	</div>
+	<div class="modal-footer">
+		<a (click)="formSubtitle = this.meta.subTitle" class="modal-action modal-close waves-effect waves-red btn-flat">Annuler</a>
+		<a (click)="setSubTitle(formSubtitle)"  class="modal-action modal-close waves-effect waves-green btn-flat">Sauvegarder</a>
 	</div>
 </div>
 

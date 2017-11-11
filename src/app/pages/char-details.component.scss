@@ -1,0 +1,32 @@
+.char-subtitle {
+	a {
+		opacity: 0.0;
+		color: #AAA;
+	}
+}
+.char-subtitle:hover a {
+	opacity: 1.0;
+}
+
+.filters {
+	label {
+		padding-right: 1em;
+	}
+}
+
+#details-build {
+	table tr {
+		td:first-child {
+			text-align: center;
+			font-weight: bold;
+		}
+	}
+}
+
+#details-dungeons {
+	table tr td:not(:first-child) {
+		font-size: 24px;
+		text-align: center;
+		padding: 0px 5px 0 5px;
+	}
+}

@@ -52,3 +52,16 @@ a{
 
 	text-align: center;
 }
+
+
+.chip > .logo {
+  float: left;
+  margin: 0 0 0 -12px;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+
+  font-size: 16px;
+  line-height: 32px;
+  padding-left: 8px;
+}

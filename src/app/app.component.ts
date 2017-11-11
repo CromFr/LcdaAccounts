@@ -31,7 +31,10 @@ export class AppComponent implements OnInit {
         this.accountToBrowse = user.account;
         console.log('User: ', user);
         },
-      err => { toast('Error: ' + err, 5000, 'red'); });
+      err => {
+        console.error('getUser: ', err);
+        toast('Error: ' + err.error, 5000, 'red darken-3');
+      });
   }
 
   login() {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import { environment } from '../environments/environment';
 
@@ -76,6 +76,18 @@ export interface LightCharacter {
 
 export interface CharMetadata {
   isPublic: boolean;
+  subTitle: string;
+  notes: string;
+}
+
+export enum TokenType {
+  admin, restricted
+}
+export interface Token {
+  id: number;
+  name: string;
+  type: TokenType;
+  lastUsed: string;
 }
 
 
@@ -92,23 +104,58 @@ export class ApiService {
   }
 
 
-  getCharList(account: string, backupVault: boolean): Observable<LightCharacter[]> {
+  getCharList(account: string, backupVault: boolean = false): Observable<LightCharacter[]> {
     return this.http.get<LightCharacter[]>(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/',
       { headers: this.headers });
   }
-  getCharDetails(account: string, char: string, backupVault: boolean): Observable<Character> {
+  getCharDetails(account: string, char: string, backupVault: boolean = false): Observable<Character> {
     return this.http.get<Character>(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/' + char,
       { headers: this.headers });
   }
-  getCharMetadata(account: string, char: string, backupVault: boolean): Observable<CharMetadata> {
+  getCharMetadata(account: string, char: string, backupVault: boolean = false): Observable<CharMetadata> {
     return this.http.get<CharMetadata>(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/' + char + '/meta',
       { headers: this.headers });
   }
+  postCharMetadata(account: string, char: string, metadata: CharMetadata, backupVault: boolean = false): Observable<any> {
+    return this.http.post(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/' + char + '/meta',
+      {
+        metadata: metadata
+      },
+      {
+        headers: this.headers,
+        responseType: 'text',
+      });
+  }
 
 
-  getAccountTokenList(account: string): Observable<string[]> {
-    return this.http.get<string[]>(environment.api_url + '/account/' + account + '/token',
+
+
+  getAccountExists(account: string): Observable<boolean> {
+    return this.http.get<boolean>(environment.api_url + '/account/' + account,
       { headers: this.headers });
+  }
+  setAccountPassword(account: string, oldPassword: string, newPassword: string): Observable<any> {
+    return this.http.post(environment.api_url + '/account/' + account + '/password',
+      {
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      },
+      {
+        headers: this.headers,
+        responseType: 'text',
+      });
+  }
+
+  getAccountTokenList(account: string): Observable<Token[]> {
+    return this.http.get<Token[]>(environment.api_url + '/account/' + account + '/tokens',
+      { headers: this.headers });
+  }
+  deleteAccountToken(account: string, tokenId: number): Observable<any> {
+    return this.http.delete(environment.api_url + '/account/' + account + '/tokens/' + tokenId,
+      {
+        headers: this.headers,
+        responseType: 'text',
+      });
   }
 
 }
