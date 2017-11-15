@@ -67,6 +67,14 @@
 				border-left-color: #C485F8;
 			}
 		}
+
+		img.small-icon {
+			vertical-align: middle;
+			height: 20px;
+		}
+		table > tbody > tr > td {
+			vertical-align: top;
+		}
 	}
 }
 

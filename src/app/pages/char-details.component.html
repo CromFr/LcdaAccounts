@@ -185,17 +185,18 @@
 							<tr>
 								<td>
 									<ul>
-										<li *ngFor="let skill of lvl.skills">
-											<span *ngIf="skill.valueDiff !== 0">
+										<ng-container *ngFor="let skill of lvl.skills">
+											<li *ngIf="skill.valueDiff !== 0">
+												<img class="small-icon" src="/assets/nwn2/icons/{{character.skills[skill.skillIndex].icon}}.png"/>
 												+{{skill.valueDiff}} {{character.skills[skill.skillIndex].name}} ({{skill.value}})
-											</span>
-										</li>
+											</li>
+										</ng-container>
 									</ul>
 								</td>
 								<td>
 									<ul>
-										<li *ngFor="let featOffset of lvl.feats">
-											{{character.feats[featOffset].name}}
+										<li *ngFor="let featIndex of lvl.featIndices">
+											<img class="small-icon" src="/assets/nwn2/icons/{{character.feats[featIndex].icon}}.png"/> {{character.feats[featIndex].name}}
 										</li>
 									</ul>
 								</td>
@@ -233,7 +234,7 @@
 			<input id="dungeon-filter-augdifficulties" type="checkbox" class="filled-in" checked="checked" [(ngModel)]="dungeonFilter.hasDifficulties"/>
 			<label for="dungeon-filter-augdifficulties">Difficulté augmentée</label>
 		</p>
-		<table class="bordered striped responsive-table">
+		<table class="bordered striped responsive-table condensed">
 			<thead>
 				<tr>
 					<th>Nom</th>
