@@ -3,13 +3,14 @@ import { RouterModule } from '@angular/router';
 import { environment } from '../environments/environment';
 import { toast } from 'angular2-materialize';
 
-import { ApiService, UserInfo } from './api.service';
+import { ApiService, UserInfo, LightCharacter } from './api.service';
 
 declare var $: any;
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  styleUrls: [ './app.component.scss' ]
 })
 export class AppComponent implements OnInit {
 
@@ -22,7 +23,9 @@ export class AppComponent implements OnInit {
     token: null
   };
 
-  accountToBrowse: string;
+  public accountToBrowse: string;
+
+  public charList: LightCharacter[];
 
 
   ngOnInit(): void {
@@ -30,11 +33,22 @@ export class AppComponent implements OnInit {
       data => {
         this.user = data;
         this.accountToBrowse = data.account;
+
+        this.apiService.getCharList(this.accountToBrowse, false).subscribe(
+          list => {
+            this.charList = list;
+          },
+          err => {
+            console.error('getCharList: ', err);
+            toast('Error: ' + err.error, 5000, 'red darken-3');
+          });
       },
       err => {
         console.error('getUser: ', err);
         toast('Error: ' + err.error, 5000, 'red darken-3');
       });
+
+
   }
 
   login(): void {

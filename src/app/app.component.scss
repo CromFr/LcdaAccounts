@@ -1,0 +1,33 @@
+.side-nav {
+
+	> li > ul {
+		font-weight: normal;
+		margin-left: 2.5em;
+		border-left: 0.5em solid rgba(0,0,0,0.05);
+	}
+
+	.char-link {
+		//height: 48px
+
+		.title {
+			height: 32px;
+			line-height: 32px;
+
+			i {
+				padding: 5px;
+				font-size: 14px;
+				color: #888;
+			}
+		}
+		.subtitle {
+			height: 16px;
+			line-height: 16px;
+			font-size: 12px;
+
+			overflow: hidden;
+			font-weight: normal;
+			color: #888;
+		}
+
+	}
+}

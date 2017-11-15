@@ -6,6 +6,7 @@
 	<table class="highlight">
 		<thead>
 			<tr>
+				<th></th>
 				<th>Nom</th>
 				<th>Race</th>
 				<th>Niveau</th>
@@ -14,6 +15,9 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let character of activeChars">
+				<td>
+					<span *ngIf="character.metadata?.isPublic === true" class="tooltipped" materialize="tooltip" data-position="right" data-tooltip="Personnage public"><i class="material-icons left">public</i></span>
+				</td>
 				<td class="flow-text"><a (click)="gotoCharDetails(character, false)">{{character.name}}</a></td>
 				<td>{{character.race}}</td>
 				<td>{{character.lvl}}</td>
@@ -32,6 +36,7 @@
 	<table class="highlight">
 		<thead>
 			<tr>
+				<th></th>
 				<th>Nom</th>
 				<th>Race</th>
 				<th>Niveau</th>
@@ -40,6 +45,9 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let character of backupChars">
+				<td>
+					<span *ngIf="character.metadata?.isPublic === true" class="tooltipped" materialize="tooltip" data-position="right" data-tooltip="Personnage public"><i class="material-icons left">public</i></span>
+				</td>
 				<td class="flow-text"><a (click)="gotoCharDetails(character, true)">{{character.name}}</a></td>
 				<td>{{character.race}}</td>
 				<td>{{character.lvl}}</td>

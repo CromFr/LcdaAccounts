@@ -40,26 +40,33 @@ export class CharDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.account = this.route.snapshot.paramMap.get('account');
-    this.bicFileName = this.route.snapshot.paramMap.get('character');
+    this.route.paramMap.subscribe((newParamMap) => {
+        this.account = newParamMap.get('account');
+        this.bicFileName = newParamMap.get('character');
 
+        this.updateCharacter();
+        this.updateMetadata();
+      });
+
+
+
+
+  }
+
+  private updateCharacter(): void {
     this.apiService.getCharDetails(this.account, this.bicFileName, this.backupChar).subscribe(
       data => {
         for (let i = 0; i < data.classes.length; ++i) {
           this.classColors[data.classes[i].name] = 'class' + i;
         }
-        console.log(this.classColors);
         this.character = data;
       },
       err => {
         console.error('getCharDetails: ', err);
         toast('Error: ' + err.error, 5000, 'red darken-3');
       });
-
-    this.updateMetadata();
   }
-
-  private updateMetadata() {
+  private updateMetadata(): void {
     this.apiService.getCharMetadata(this.account, this.bicFileName, this.backupChar).subscribe(
       data => {
         this.meta = data;

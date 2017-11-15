@@ -84,6 +84,8 @@ export interface LightCharacter {
   lvl: number;
   classes: Character.Class[];
   bicFileName: string;
+
+  metadata: CharMetadata;
 }
 export interface CharMetadata {
   isPublic: boolean;

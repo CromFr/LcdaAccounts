@@ -38,13 +38,23 @@
       Mon compte
     </a>
   </li>
+
   <li *ngIf="user.account !== ''">
     <a routerLink="/{{accountToBrowse}}/vault/" (click)="closeSideNav()" class="activable">
       <i class="material-icons left">face</i>
       Personnages
     </a>
+    <ul>
+      <li class="char-link" *ngFor="let character of charList">
+        <a routerLink="/{{accountToBrowse}}/vault/{{character.bicFileName}}" (click)="closeSideNav()" class="activable">
+          <div class="title">{{character.name}} <i *ngIf="character.metadata.isPublic" class="material-icons">public</i></div>
+          <div class="subtitle">{{character.metadata.subTitle}}</div>
+        </a>
+      </li>
+    </ul>
+
   </li>
-  <li *ngIf="user.account !== ''"><hr></li>
+  <li *ngIf="user.account !== ''"><div class="divider"></div></li>
   <li *ngIf="user.account === ''">
     <a routerLink="/newaccount" (click)="closeSideNav()" class="activable">
       <i class="material-icons left">add_circle_outline</i>
