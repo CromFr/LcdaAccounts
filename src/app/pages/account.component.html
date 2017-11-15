@@ -33,7 +33,7 @@
 </form>
 
 <h4>Tokens d'authentification</h4>
-<table class="highlight">
+<table id="account-tokens" class="highlight">
 	<thead>
 		<tr>
 			<th class="tooltipped" data-tooltip="Nom de l'application utilisant le token">Nom</th>
@@ -48,7 +48,15 @@
 			<td *ngIf="token.type === 'admin'"><div class="chip red lighten-4"><i class="logo material-icons">build</i>Admin</div></td>
 			<td *ngIf="token.type === 'restricted'"><div class="chip"><i class="material-icons">build</i>Limité</div></td>
 			<td>{{token.lastUsed}}</td>
-			<td><a class="btn-floating blue" (click)="removeToken(token)"><i class="material-icons">delete_forever</i></a></td>
+			<td [ngClass]="{tooltipped: appComponent.user.token?.id === token.id}"
+				(onCreate)="appComponent.user.token?.id === token.id ? $('#account-tokens tbody td.tooltipped').tooltip() : null"
+				data-tooltip="Ce token est actuellement utilisé, vous pouvez le supprimer en vous déconnectant" data-position="top">
+				<a class="btn-floating blue" (click)="removeToken(token)"
+					[ngClass]="{disabled: appComponent.user.token?.id === token.id}"
+					>
+					<i class="material-icons">delete_forever</i>
+				</a>
+			</td>
 		</tr>
 
 	</tbody>

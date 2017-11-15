@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
-import { ApiService, Token } from '../api.service';
+import { ApiService, Token, TokenType } from '../api.service';
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
 
 import { toast } from 'angular2-materialize';
+declare var $: any;
 
 @Component({
     templateUrl: './account.component.html'
@@ -34,7 +35,6 @@ export class AccountComponent implements OnInit {
     this.apiService.getAccountTokenList(this.account).subscribe(
       data => {
         this.tokenList = data;
-        console.log(data);
       },
       err => {
         console.error('getAccountTokenList: ', err);
