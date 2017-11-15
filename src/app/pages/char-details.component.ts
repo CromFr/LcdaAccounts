@@ -46,14 +46,7 @@ export class CharDetailsComponent implements OnInit {
     this.apiService.getCharDetails(this.account, this.bicFileName, this.backupChar).subscribe(
       data => {
         for (let i = 0; i < data.classes.length; ++i) {
-          let c: string;
-          switch (i) {
-            case 0: c = 'blue lighten-3'; break;
-            case 1: c = 'green lighten-3'; break;
-            case 2: c = 'red lighten-3'; break;
-            case 3: c = 'purple lighten-3'; break;
-          }
-          this.classColors[data.classes[i].name] = c;
+          this.classColors[data.classes[i].name] = 'class' + i;
         }
         console.log(this.classColors);
         this.character = data;

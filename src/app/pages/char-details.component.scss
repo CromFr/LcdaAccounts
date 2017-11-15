@@ -15,10 +15,40 @@
 }
 
 #details-build {
-	table tr {
-		td:first-child {
-			text-align: center;
-			font-weight: bold;
+
+	.collapsible {
+
+		.collapsible-header {
+			border-left: 1em solid #000;
+			b {
+				display: inline-block;
+				width: 2em;
+				text-align: center;
+			}
+		}
+		.collapsible-body {
+			border-left: 1px solid #000;
+		}
+
+		.class0 {
+			.collapsible-header, .collapsible-body {
+				border-left-color: #90CAF9;
+			}
+		}
+		.class1 {
+			.collapsible-header, .collapsible-body {
+				border-left-color: #A5D6A7;
+			}
+		}
+		.class2 {
+			.collapsible-header, .collapsible-body {
+				border-left-color: #EF9A9A;
+			}
+		}
+		.class3 {
+			.collapsible-header, .collapsible-body {
+				border-left-color: #C485F8;
+			}
 		}
 	}
 }

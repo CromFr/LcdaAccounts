@@ -147,40 +147,44 @@
 	</div>
 	<!-- =================================================== -->
 	<div id="details-build">
-		<table class="striped">
-			<thead>
-				<tr>
-					<th></th>
-					<th>Classe</th>
-					<th>Carac.</th>
-					<th>Compétences</th>
-					<th>Don(s)</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr *ngFor="let lvl of character?.leveling; let i = index">
-					<td class="{{classColors[lvl.className]}}">{{i+1}}</td>
-					<td>{{lvl.className}}</td>
-					<td>{{lvl.ability!==""? "+1 "+lvl.ability : ""}}</td>
-					<td>
-						<ul>
-							<li *ngFor="let skill of lvl.skills">
-								<span *ngIf="skill.valueDiff !== 0">
-									+{{skill.valueDiff}} {{skill.name}} ({{skill.value}})
-								</span>
-							</li>
-						</ul>
-					</td>
-					<td>
-						<ul>
-							<li *ngFor="let feat of lvl.feats">
-								{{feat}}
-							</li>
-						</ul>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+
+		<ul class="modal-content collapsible" data-collapsible="expandable" materialize="collapsible">
+			<li *ngFor="let lvl of character?.leveling; let i = index" class="{{classColors[lvl.className]}}">
+				<div class="collapsible-header">
+					<b>{{i+1}}</b>: {{lvl.className}}
+				</div>
+				<div class="collapsible-body">
+					<div *ngIf="lvl.ability !== ''">
+						<b>Caractéristiques: </b> {{lvl.ability!==""? "+1 "+lvl.ability : ""}}
+					</div>
+					<table>
+						<thead>
+							<tr><th>Compétences</th><th>Dons</th></tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<ul>
+										<li *ngFor="let skill of lvl.skills">
+											<span *ngIf="skill.valueDiff !== 0">
+												+{{skill.valueDiff}} {{skill.name}} ({{skill.value}})
+											</span>
+										</li>
+									</ul>
+								</td>
+								<td>
+									<ul>
+										<li *ngFor="let feat of lvl.feats">
+											{{feat}}
+										</li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</li>
+		</ul>
 	</div>
 	<!-- =================================================== -->
 	<div id="details-quests">
