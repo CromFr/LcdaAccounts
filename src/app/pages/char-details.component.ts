@@ -8,7 +8,6 @@ import { AppComponent } from '../app.component';
 
 declare var $: any;
 
-class ClassC
 @Component({
   templateUrl: './char-details.component.html',
   styleUrls: [ './char-details.component.scss' ]
@@ -177,34 +176,34 @@ export class CharDetailsComponent implements OnInit {
 
 
 
-  private difficulties = [
-  {
-    id: 0,
-    name: 'Normal',
-    color: 'white',
-  },
-  {
-    id: 1,
-    name: 'Difficile',
-    color: 'cyan',
-  },
-  {
-    id: 2,
-    name: 'Epique',
-    color: 'yellow',
-  },
-  {
-    id: 3,
-    name: 'Légendaire',
-    color: 'orange',
-  },
-  {
-    id: 4,
-    name: 'Inimaginable',
-    color: 'red',
-  }
-];
 
+  private difficulties = [
+    {
+      id: 0,
+      name: 'Normal',
+      color: 'white',
+    },
+    {
+      id: 1,
+      name: 'Difficile',
+      color: 'cyan',
+    },
+    {
+      id: 2,
+      name: 'Epique',
+      color: 'yellow',
+    },
+    {
+      id: 3,
+      name: 'Légendaire',
+      color: 'orange',
+    },
+    {
+      id: 4,
+      name: 'Inimaginable',
+      color: 'red',
+    }
+  ];
 
 
 

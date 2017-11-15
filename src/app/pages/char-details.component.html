@@ -9,6 +9,8 @@
 <div class="row">
 	<ul class="tabs" materialize="tabs">
 		<li class="tab"><a href="#details-general">Général</a></li>
+		<li class="tab"><a href="#details-feats">Dons</a></li>
+		<li class="tab"><a href="#details-skills">Compétences</a></li>
 		<li class="tab"><a href="#details-build">Build</a></li>
 		<li class="tab"><a href="#details-quests">Quêtes</a></li>
 		<li class="tab"><a href="#details-dungeons">Donjons</a></li>
@@ -138,6 +140,12 @@
 		</div>
 	</div>
 	<!-- =================================================== -->
+	<div id="details-feats">
+	</div>
+	<!-- =================================================== -->
+	<div id="details-skills">
+	</div>
+	<!-- =================================================== -->
 	<div id="details-build">
 		<table class="striped">
 			<thead>
@@ -201,7 +209,7 @@
 			<input id="dungeon-filter-augdifficulties" type="checkbox" class="filled-in" checked="checked" [(ngModel)]="dungeonFilter.hasDifficulties"/>
 			<label for="dungeon-filter-augdifficulties">Difficulté augmentée</label>
 		</p>
-		<table class="bordered striped">
+		<table class="bordered striped responsive-table">
 			<thead>
 				<tr>
 					<th>Nom</th>
