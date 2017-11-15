@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterializeModule } from 'angular2-materialize';
 
 import { AppComponent } from './app.component';
+import { RegisterTokenComponent } from './registertoken.component';
 import { HomeComponent } from './pages/home.component';
 import { NewAccountComponent } from './pages/newaccount.component';
 import { AccountComponent } from './pages/account.component';
@@ -17,15 +18,17 @@ import { ApiService } from './api.service';
 const routes = [
   {path: '', component: HomeComponent, useAsDefault: true},
   {path: 'newaccount', component: NewAccountComponent},
+  {path: '_registertoken', component: RegisterTokenComponent},
   {path: ':account/account', component: AccountComponent},
   {path: ':account/vault', component: CharListComponent},
   {path: ':account/vault/:character', component: CharDetailsComponent},
-  // {path: ':account/backupvault/:char', component: CharDetailsComponent, data: {deleted: true}},
+  {path: ':account/backupvault/:character', component: CharDetailsComponent, data: {backupChar: true}},
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    RegisterTokenComponent,
     HomeComponent,
     NewAccountComponent,
     AccountComponent,

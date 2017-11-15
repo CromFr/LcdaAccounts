@@ -5,10 +5,11 @@ import { toast } from 'angular2-materialize';
 
 import { ApiService, UserInfo } from './api.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
 
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
   public user: UserInfo = {
     account: null,
     isAdmin: false,
-    tokenName: null
+    token: null
   };
 
   accountToBrowse: string;
@@ -26,18 +27,34 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.getUser().subscribe(
-      user => {
-        this.user = user;
-        this.accountToBrowse = user.account;
-        console.log('User: ', user);
-        },
+      data => {
+        this.user = data;
+        this.accountToBrowse = data.account;
+      },
       err => {
         console.error('getUser: ', err);
         toast('Error: ' + err.error, 5000, 'red darken-3');
       });
   }
 
-  login() {
-    window.location.href = environment.api_url + '/login?redirect=' + encodeURIComponent(window.location.href);
+  login(): void {
+    const redirectTarget = new URL(window.location.href);
+    redirectTarget.pathname = '/_registertoken';
+    redirectTarget.searchParams.append('account-redir', window.location.pathname);
+
+    window.location.href = environment.api_url + '/gen_token'
+      + '?tokenName=' + encodeURIComponent('account.lcda-nwn2.fr')
+      + '&tokenType=' + encodeURIComponent('admin')
+      + '&redir=' + encodeURIComponent(redirectTarget.href);
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.apiService.deleteAccountToken(this.user.account, this.user.token.id);
+    window.location.pathname = '/';
+  }
+
+  closeSideNav(): void {
+    $('#sidebar').sideNav('hide');
   }
 }

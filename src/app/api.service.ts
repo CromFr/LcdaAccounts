@@ -3,11 +3,24 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import { environment } from '../environments/environment';
 
+
+
+export enum TokenType {
+  admin, restricted
+}
+export interface Token {
+  id: number;
+  name: string;
+  type: TokenType;
+  lastUsed: string;
+}
 export interface UserInfo {
   account: string;
   isAdmin: boolean;
-  tokenName: string;
+  token: Token;
 }
+
+
 
 export module Character {
   export interface Class {
@@ -65,7 +78,6 @@ export interface Character {
   bicFile: string;
   bicFileName: string;
 }
-
 export interface LightCharacter {
   name: string;
   race: string;
@@ -73,22 +85,12 @@ export interface LightCharacter {
   classes: Character.Class[];
   bicFileName: string;
 }
-
 export interface CharMetadata {
   isPublic: boolean;
   subTitle: string;
   notes: string;
 }
 
-export enum TokenType {
-  admin, restricted
-}
-export interface Token {
-  id: number;
-  name: string;
-  type: TokenType;
-  lastUsed: string;
-}
 
 
 @Injectable()
@@ -96,25 +98,34 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  private headers = new HttpHeaders().set('PRIVATE-TOKEN', 'TODO');
+  private authHeaders(): HttpHeaders {
+    let ret = new HttpHeaders();
+
+    const token = localStorage.getItem('auth-token');
+    if (token !== null) {
+      ret = ret.set('PRIVATE-TOKEN', token);
+    }
+
+    return ret;
+  }
 
   getUser(): Observable<UserInfo> {
     return this.http.get<UserInfo>(environment.api_url + '/user',
-      { headers: this.headers });
+      { headers: this.authHeaders() });
   }
 
 
   getCharList(account: string, backupVault: boolean = false): Observable<LightCharacter[]> {
     return this.http.get<LightCharacter[]>(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/',
-      { headers: this.headers });
+      { headers: this.authHeaders() });
   }
   getCharDetails(account: string, char: string, backupVault: boolean = false): Observable<Character> {
     return this.http.get<Character>(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/' + char,
-      { headers: this.headers });
+      { headers: this.authHeaders() });
   }
   getCharMetadata(account: string, char: string, backupVault: boolean = false): Observable<CharMetadata> {
     return this.http.get<CharMetadata>(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/' + char + '/meta',
-      { headers: this.headers });
+      { headers: this.authHeaders() });
   }
   postCharMetadata(account: string, char: string, metadata: CharMetadata, backupVault: boolean = false): Observable<any> {
     return this.http.post(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/' + char + '/meta',
@@ -122,7 +133,7 @@ export class ApiService {
         metadata: metadata
       },
       {
-        headers: this.headers,
+        headers: this.authHeaders(),
         responseType: 'text',
       });
   }
@@ -132,7 +143,7 @@ export class ApiService {
 
   getAccountExists(account: string): Observable<boolean> {
     return this.http.get<boolean>(environment.api_url + '/account/' + account,
-      { headers: this.headers });
+      { headers: this.authHeaders() });
   }
   setAccountPassword(account: string, oldPassword: string, newPassword: string): Observable<any> {
     return this.http.post(environment.api_url + '/account/' + account + '/password',
@@ -141,19 +152,19 @@ export class ApiService {
         newPassword: newPassword,
       },
       {
-        headers: this.headers,
+        headers: this.authHeaders(),
         responseType: 'text',
       });
   }
 
   getAccountTokenList(account: string): Observable<Token[]> {
     return this.http.get<Token[]>(environment.api_url + '/account/' + account + '/tokens',
-      { headers: this.headers });
+      { headers: this.authHeaders() });
   }
   deleteAccountToken(account: string, tokenId: number): Observable<any> {
     return this.http.delete(environment.api_url + '/account/' + account + '/tokens/' + tokenId,
       {
-        headers: this.headers,
+        headers: this.authHeaders(),
         responseType: 'text',
       });
   }
