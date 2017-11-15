@@ -27,16 +27,27 @@ export module Character {
     name: string;
     lvl: number;
   }
-  export interface LevelingSkill {
+  export interface Feat {
     name: string;
+    category: string;
+    icon: string;
+  }
+  export interface Skill {
+    name: string;
+    icon: string;
+    rank: number;
+    abilityIndex: number;
+  }
+  export interface LevelingSkill {
+    skillIndex: number;
     value: number;
     valueDiff: number;
   }
   export interface Level {
-    className: string;
+    classIndex: number;
     ability: string;
     skills: LevelingSkill[];
-    feats: string[];
+    featIndices: number[];
   }
   export interface Alignment {
     name: string;
@@ -66,6 +77,8 @@ export module Character {
 export interface Character {
   name: string;
   lvl: number;
+  feats: Character.Feat[];
+  skills: Character.Skill[];
   classes: Character.Class[];
   leveling: Character.Level[];
   race: string;

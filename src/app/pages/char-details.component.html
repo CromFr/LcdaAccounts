@@ -141,21 +141,41 @@
 	</div>
 	<!-- =================================================== -->
 	<div id="details-feats">
+		<table class="condensed">
+			<ng-container *ngFor="let cat of featCategories">
+				<tr *ngIf="featList(cat.value).length > 0"><th colspan="2">{{cat.name}}</th></tr>
+				<tr *ngFor="let feat of featList(cat.value)">
+					<td><img src="/assets/nwn2/icons/{{feat.icon}}.png"/></td>
+					<td>{{feat.name}}</td>
+				</tr>
+			</ng-container>
+		</table>
 	</div>
 	<!-- =================================================== -->
 	<div id="details-skills">
+		<table class="condensed striped">
+			<tr><th></th><th>Nom</th><th>Rang</th><th>Bonus carac.</th></tr>
+			<tr *ngFor="let skill of character?.skills">
+				<td><img src="/assets/nwn2/icons/{{skill.icon}}.png"/></td>
+				<td>{{skill.name}}</td>
+				<td>{{skill.rank}}</td>
+				<td>{{abilityModifier(character.abilities[skill.abilityIndex].value)}}</td>
+			</tr>
+		</table>
 	</div>
 	<!-- =================================================== -->
 	<div id="details-build">
 
 		<ul class="modal-content collapsible" data-collapsible="expandable" materialize="collapsible">
-			<li *ngFor="let lvl of character?.leveling; let i = index" class="{{classColors[lvl.className]}}">
+			<li *ngFor="let lvl of character?.leveling; let i = index" class="class{{lvl.classIndex}}">
 				<div class="collapsible-header">
-					<b>{{i+1}}</b>: {{lvl.className}}
+					<div class="level-id flow-text">{{i+1}}</div>
+					<img src="/assets/nwn2/icons/{{character.classes[lvl.classIndex].icon}}.png"/>
+					<div class="level-class-name">{{character.classes[lvl.classIndex].name}}</div>
 				</div>
 				<div class="collapsible-body">
 					<div *ngIf="lvl.ability !== ''">
-						<b>Caractéristiques: </b> {{lvl.ability!==""? "+1 "+lvl.ability : ""}}
+						<b>Caractéristiques: </b>{{lvl.ability!==""? "+1 "+lvl.ability : ""}}
 					</div>
 					<table>
 						<thead>
@@ -167,15 +187,15 @@
 									<ul>
 										<li *ngFor="let skill of lvl.skills">
 											<span *ngIf="skill.valueDiff !== 0">
-												+{{skill.valueDiff}} {{skill.name}} ({{skill.value}})
+												+{{skill.valueDiff}} {{character.skills[skill.skillIndex].name}} ({{skill.value}})
 											</span>
 										</li>
 									</ul>
 								</td>
 								<td>
 									<ul>
-										<li *ngFor="let feat of lvl.feats">
-											{{feat}}
+										<li *ngFor="let featOffset of lvl.feats">
+											{{character.feats[featOffset].name}}
 										</li>
 									</ul>
 								</td>

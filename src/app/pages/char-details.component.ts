@@ -22,7 +22,6 @@ export class CharDetailsComponent implements OnInit {
   public meta: CharMetadata;
 
   private formSubtitle: string;
-  private classColors: any = {};
   private questFilter = {
     unknown: true,
     pending: true,
@@ -47,18 +46,11 @@ export class CharDetailsComponent implements OnInit {
         this.updateCharacter();
         this.updateMetadata();
       });
-
-
-
-
   }
 
   private updateCharacter(): void {
     this.apiService.getCharDetails(this.account, this.bicFileName, this.backupChar).subscribe(
       data => {
-        for (let i = 0; i < data.classes.length; ++i) {
-          this.classColors[data.classes[i].name] = 'class' + i;
-        }
         this.character = data;
       },
       err => {
@@ -98,12 +90,12 @@ export class CharDetailsComponent implements OnInit {
   questList(): Character.JournalEntry[] {
     if (this.character) {
       return this.character.journal
-        .sort((a, b) => a.name.localeCompare(b.name))
         .filter((q) => {
           return (this.questFilter.unknown && q.state === 0)
               || (this.questFilter.pending && q.state === 1)
               || (this.questFilter.finished && q.state === 2);
-        });
+        })
+        .sort((a, b) => a.name.localeCompare(b.name));
     }
     return [];
   }
@@ -130,6 +122,15 @@ export class CharDetailsComponent implements OnInit {
           }
           return true;
         });
+    }
+    return [];
+  }
+  featList(category: string): Character.Feat[] {
+    if (this.character) {
+
+      return this.character.feats
+        .filter((feat) => feat.category === category)
+        .sort((a, b) => a.name.localeCompare(b.name));
     }
     return [];
   }
@@ -203,6 +204,22 @@ export class CharDetailsComponent implements OnInit {
       name: 'Inimaginable',
       color: 'red',
     }
+  ];
+  private featCategories = [
+    { value: 'BACKGROUND_FT_CAT',    name: 'Dons historiques'},
+    { value: 'GENERAL_FT_CAT',       name: 'Dons généraux'},
+    { value: 'PROFICIENCY_FT_CAT',   name: 'Dons d\'armes et armures'},
+    { value: 'SPELLCASTING_FT_CAT',  name: 'Dons de magie'},
+    { value: 'METAMAGIC_FT_CAT',     name: 'Dons de métamagie'},
+    { value: 'ITEMCREATION_FT_CAT',  name: 'Dons de création d\'objets'},
+    { value: 'DIVINE_FT_CAT',        name: 'Dons divins'},
+    { value: 'SKILLNSAVE_FT_CAT',    name: 'Dons de compétences et de sauvegarde'},
+    { value: 'RACIALABILITY_FT_CAT', name: 'Aptitudes raciales'},
+    { value: 'HERITAGE_FT_CAT',      name: 'Dons d\'héritage'},
+    { value: 'HISTORY_FT_CAT',       name: 'Traits de personnalité'},
+    { value: 'CLASSABILITY_FT_CAT',  name: 'Pouvoirs de classe'},
+    { value: 'EPIC_FT_CAT',          name: 'Dons épiques'},
+    { value: 'TEAMWORK_FT_CAT',      name: 'Dons d\'équipe'},
   ];
 
 
