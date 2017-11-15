@@ -1,4 +1,6 @@
-# LcdaAccountManager
+# LcdaAccounts
+
+This is the main frontend of [LcdaApi](https://github.com/CromFr/LcdaApi).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
 
