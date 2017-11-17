@@ -18,9 +18,9 @@ export class AppComponent implements OnInit {
 
 
   public user: UserInfo = {
-    account: null,
+    account: '',
     isAdmin: false,
-    token: null
+    token: ''
   };
 
   public accountToBrowse: string;
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
         this.user = data;
         this.accountToBrowse = data.account;
 
-        if (this.user.account !== null) {
+        if (this.user.account !== '') {
           this.updateCharList();
         }
       },
