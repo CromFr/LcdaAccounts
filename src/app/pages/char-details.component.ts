@@ -21,21 +21,21 @@ export class CharDetailsComponent implements OnInit {
   public character: Character;
   public meta: CharMetadata;
 
-  private formSubtitle: string;
-  private questFilter = {
+  public formSubtitle: string;
+  public questFilter = {
     unknown: true,
     pending: true,
     finished: true,
   };
-  private dungeonFilter = {
+  public dungeonFilter = {
     hasMissingKinder: false,
     hasDifficulties: false,
   };
-  private formNotes: string;
+  public formNotes: string;
 
 
 
-  constructor(private apiService: ApiService, private appComponent: AppComponent, private route: ActivatedRoute, private router: Router) { }
+  constructor(public apiService: ApiService, public appComponent: AppComponent, public route: ActivatedRoute, public router: Router) { }
 
 
   ngOnInit(): void {
@@ -148,7 +148,7 @@ export class CharDetailsComponent implements OnInit {
     const newMetadata = this.meta;
     newMetadata.subTitle = subTitle;
 
-    this.setMetadata(newMetadata);
+    this.setMetadata(newMetadata, true);
   }
   setSubNotes(notes: string): void {
     const newMetadata = this.meta;
@@ -187,11 +187,14 @@ export class CharDetailsComponent implements OnInit {
   }
 
 
-  private setMetadata(metadata: CharMetadata): void {
+  setMetadata(metadata: CharMetadata, updateLeftMenu: boolean = false): void {
     this.apiService.postCharMetadata(this.account, this.bicFileName, metadata, this.backupChar).subscribe(
       () => {
         toast('Sauvegardé', 3000, 'green');
         this.updateMetadata();
+        if (updateLeftMenu) {
+          this.appComponent.updateCharList();
+        }
       },
       err => {
         console.error('postCharMetadata: ', err);
@@ -203,7 +206,7 @@ export class CharDetailsComponent implements OnInit {
 
 
 
-  private difficulties = [
+  public difficulties = [
     {
       id: 0,
       name: 'Normal',
@@ -230,7 +233,7 @@ export class CharDetailsComponent implements OnInit {
       color: 'red',
     }
   ];
-  private featCategories = [
+  public featCategories = [
     { value: 'BACKGROUND_FT_CAT',    name: 'Dons historiques'},
     { value: 'GENERAL_FT_CAT',       name: 'Dons généraux'},
     { value: 'PROFICIENCY_FT_CAT',   name: 'Dons d\'armes et armures'},

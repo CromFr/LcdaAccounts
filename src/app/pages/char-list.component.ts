@@ -14,7 +14,7 @@ export class CharListComponent implements OnInit {
   public backupChars: LightCharacter[];
 
 
-  constructor(private appComponent: AppComponent, private apiService: ApiService, private route: ActivatedRoute, private router: Router) { }
+  constructor(public appComponent: AppComponent, public apiService: ApiService, public route: ActivatedRoute, public router: Router) { }
 
 
   ngOnInit(): void {

@@ -15,15 +15,15 @@ export class AccountComponent implements OnInit {
 
   account: string;
 
-  private changePasswordForm = {
+  changePasswordForm = {
     oldPassword: '',
     newPassword: '',
     newPasswordCheck: '',
   };
 
-  private tokenList: Token[];
+  tokenList: Token[];
 
-  constructor(private apiService: ApiService, private appComponent: AppComponent, private route: ActivatedRoute, private router: Router) { }
+  constructor(public apiService: ApiService, public appComponent: AppComponent, public route: ActivatedRoute, public router: Router) { }
 
 
   ngOnInit(): void {
