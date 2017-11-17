@@ -14,7 +14,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let character of activeChars">
+			<tr *ngFor="let character of appComponent.charList">
 				<td>
 					<span *ngIf="character.metadata?.isPublic === true" class="tooltipped" materialize="tooltip" data-position="right" data-tooltip="Personnage public"><i class="material-icons left">public</i></span>
 				</td>

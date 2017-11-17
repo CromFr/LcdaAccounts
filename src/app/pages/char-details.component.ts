@@ -42,10 +42,13 @@ export class CharDetailsComponent implements OnInit {
     this.route.paramMap.subscribe((newParamMap) => {
         this.account = newParamMap.get('account');
         this.bicFileName = newParamMap.get('character');
+        this.backupChar = this.route.snapshot.data.backupChar;
 
         this.updateCharacter();
         this.updateMetadata();
+
       });
+
   }
 
   private updateCharacter(): void {
@@ -55,7 +58,7 @@ export class CharDetailsComponent implements OnInit {
       },
       err => {
         console.error('getCharDetails: ', err);
-        toast('Error: ' + err.error, 5000, 'red darken-3');
+        toast('Error: ' + err.status + ' (' + err.statusText + ')', 5000, 'red darken-3');
       });
   }
   private updateMetadata(): void {
@@ -70,7 +73,7 @@ export class CharDetailsComponent implements OnInit {
       },
       err => {
         console.error('getCharMetadata: ', err);
-        toast('Error: ' + err.error, 5000, 'red darken-3');
+        toast('Error: ' + err.status + ' (' + err.statusText + ')', 5000, 'red darken-3');
       });
   }
 
@@ -192,7 +195,7 @@ export class CharDetailsComponent implements OnInit {
       },
       err => {
         console.error('postCharMetadata: ', err);
-        toast('Error: ' + err.error, 5000, 'red darken-3');
+        toast('Error: ' + err.status + ' (' + err.statusText + ')', 5000, 'red darken-3');
       });
   }
 

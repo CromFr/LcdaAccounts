@@ -34,21 +34,25 @@ export class AppComponent implements OnInit {
         this.user = data;
         this.accountToBrowse = data.account;
 
-        this.apiService.getCharList(this.accountToBrowse, false).subscribe(
-          list => {
-            this.charList = list;
-          },
-          err => {
-            console.error('getCharList: ', err);
-            toast('Error: ' + err.error, 5000, 'red darken-3');
-          });
+        if (this.user.account !== null) {
+          this.updateCharList();
+        }
       },
       err => {
         console.error('getUser: ', err);
-        toast('Error: ' + err.error, 5000, 'red darken-3');
+        toast('Error: ' + err.status + ' (' + err.statusText + ')', 5000, 'red darken-3');
       });
+  }
 
-
+  public updateCharList(): void {
+    this.apiService.getCharList(this.accountToBrowse, false).subscribe(
+      list => {
+        this.charList = list;
+      },
+      err => {
+        console.error('getCharList: ', err);
+        toast('Error: ' + err.status + ' (' + err.statusText + ')', 5000, 'red darken-3');
+      });
   }
 
   login(): void {

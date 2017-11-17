@@ -1,13 +1,46 @@
 .side-nav {
 
-	> li > ul {
-		font-weight: normal;
-		margin-left: 2.5em;
-		border-left: 0.5em solid rgba(0,0,0,0.05);
+	// > li > ul {
+	// 	font-weight: normal;
+	// 	margin-left: 0;
+	// 	border-left: 2.5em solid rgba(0,0,0,0.05);
+	// }
+
+	.grey-active {
+		background-color: rgba(0,0,0,0.05);
+	}
+
+
+	.container-active {
+		> a {
+			background-color: rgba(0,0,0,0.05);
+		}
+	}
+
+	ul.collapsible {
+
+		> li.active {
+			background: none;
+		}
+		> li {
+			> .collapsible-header {
+				display: inline-block;
+				float: right;
+				margin-top: -48px;
+			}
+
+			.collapsible-body {
+				border-left: rgba(0,0,0,0.05) solid 1em;
+			}
+
+		}
+
 	}
 
 	.char-link {
-		//height: 48px
+		>a {
+			padding-right: 0;
+		}
 
 		.title {
 			height: 32px;

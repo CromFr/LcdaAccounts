@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { toast } from 'angular2-materialize';
 
 import { ApiService, LightCharacter } from '../api.service';
+import { AppComponent } from '../app.component';
 
 @Component({
     templateUrl: './char-list.component.html'
@@ -10,31 +11,23 @@ import { ApiService, LightCharacter } from '../api.service';
 export class CharListComponent implements OnInit {
 
   public account: string;
-  public activeChars: LightCharacter[];
   public backupChars: LightCharacter[];
 
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private appComponent: AppComponent, private apiService: ApiService, private route: ActivatedRoute, private router: Router) { }
 
 
   ngOnInit(): void {
+    console.log(this.route);
     this.account = this.route.snapshot.paramMap.get('account');
 
-    this.apiService.getCharList(this.account, false).subscribe(
-      list => {
-        this.activeChars = list;
-      },
-      err => {
-        console.error('getCharList: ', err);
-        toast('Error: ' + err.error, 5000, 'red darken-3');
-      });
     this.apiService.getCharList(this.account, true).subscribe(
       list => {
         this.backupChars = list;
       },
       err => {
         console.error('getCharList: ', err);
-        toast('Error: ' + err.error, 5000, 'red darken-3');
+        toast('Error: ' + err.status + ' (' + err.statusText + ')', 5000, 'red darken-3');
       });
   }
 

@@ -38,7 +38,7 @@ export class AccountComponent implements OnInit {
       },
       err => {
         console.error('getAccountTokenList: ', err);
-        toast('Error: ' + err.error, 5000, 'red darken-3');
+        toast('Error: ' + err.status + ' (' + err.statusText + ')', 5000, 'red darken-3');
       });
   }
 
