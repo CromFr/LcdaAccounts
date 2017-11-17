@@ -155,10 +155,32 @@ export class CharDetailsComponent implements OnInit {
   }
 
   deleteChar(): void {
-    toast('Not implemented', 5000, 'red');
+    this.apiService.postCharDelete(this.account, this.bicFileName).subscribe(
+      (movedInfo) => {
+        this.router.navigate(['/', movedInfo.account, movedInfo.isDisabled ? 'backupvault' : 'vault', movedInfo.bicFileName]);
+        toast('Personnage désactivé', 3000, 'green');
+        this.backupChar = true;
+
+        this.appComponent.updateCharList();
+      },
+      err => {
+        console.error('postCharDelete: ', err);
+        toast('Error: ' + err.status + ' (' + err.statusText + ')', 5000, 'red darken-3');
+      });
   }
   activateChar(): void {
-    toast('Not implemented', 5000, 'red');
+    this.apiService.postCharRestore(this.account, this.bicFileName).subscribe(
+      (movedInfo) => {
+        this.router.navigate(['/', movedInfo.account, movedInfo.isDisabled ? 'backupvault' : 'vault', movedInfo.bicFileName]);
+        toast('Personnage re-activé', 3000, 'green');
+        this.backupChar = false;
+
+        this.appComponent.updateCharList();
+      },
+      err => {
+        console.error('postCharRestore: ', err);
+        toast('Error: ' + err.status + ' (' + err.statusText + ')', 5000, 'red darken-3');
+      });
   }
 
 

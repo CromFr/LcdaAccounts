@@ -105,7 +105,12 @@ export interface CharMetadata {
   subTitle: string;
   notes: string;
 }
-
+export interface MovedCharInfo {
+  account: string;
+  bicFileName: string;
+  isDisabled: boolean;
+  path: string;
+}
 
 
 @Injectable()
@@ -130,19 +135,19 @@ export class ApiService {
   }
 
 
-  getCharList(account: string, backupVault: boolean = false): Observable<LightCharacter[]> {
+  getCharList(account: string, backupVault: boolean): Observable<LightCharacter[]> {
     return this.http.get<LightCharacter[]>(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/',
       { headers: this.authHeaders() });
   }
-  getCharDetails(account: string, char: string, backupVault: boolean = false): Observable<Character> {
+  getCharDetails(account: string, char: string, backupVault: boolean): Observable<Character> {
     return this.http.get<Character>(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/' + char,
       { headers: this.authHeaders() });
   }
-  getCharMetadata(account: string, char: string, backupVault: boolean = false): Observable<CharMetadata> {
+  getCharMetadata(account: string, char: string, backupVault: boolean): Observable<CharMetadata> {
     return this.http.get<CharMetadata>(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/' + char + '/meta',
       { headers: this.authHeaders() });
   }
-  postCharMetadata(account: string, char: string, metadata: CharMetadata, backupVault: boolean = false): Observable<any> {
+  postCharMetadata(account: string, char: string, metadata: CharMetadata, backupVault: boolean): Observable<any> {
     return this.http.post(environment.api_url + '/' + (backupVault ? 'backupvault' : 'vault') + '/' + account + '/' + char + '/meta',
       {
         metadata: metadata
@@ -150,6 +155,21 @@ export class ApiService {
       {
         headers: this.authHeaders(),
         responseType: 'text',
+      });
+  }
+
+  postCharDelete(account: string, char: string): Observable<MovedCharInfo> {
+    return this.http.post<MovedCharInfo>(environment.api_url + '/vault/' + account + '/' + char + '/delete',
+      null,
+      {
+        headers: this.authHeaders()
+      });
+  }
+  postCharRestore(account: string, char: string): Observable<MovedCharInfo> {
+    return this.http.post<MovedCharInfo>(environment.api_url + '/backupvault/' + account + '/' + char + '/restore',
+      null,
+      {
+        headers: this.authHeaders()
       });
   }
 
