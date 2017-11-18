@@ -67,9 +67,18 @@ export class AppComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.clear();
-    this.apiService.deleteAccountToken(this.user.account, this.user.token.id);
-    window.location.pathname = '/';
+    this.apiService.deleteAccountToken(this.user.account, this.user.token.id).subscribe(
+      () => {
+        localStorage.clear();
+        toast('Déconnecté', 5000, 'green');
+        window.location.pathname = '/';
+      },
+      err => {
+        localStorage.clear();
+        console.error('deleteAccountToken: ', err);
+        window.location.pathname = '/';
+      });
+
   }
 
   closeSideNav(): void {
