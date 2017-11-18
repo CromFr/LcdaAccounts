@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   public user: UserInfo = {
     account: '',
     isAdmin: false,
-    token: ''
+    token: null
   };
 
   public accountToBrowse: string;

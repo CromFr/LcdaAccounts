@@ -192,7 +192,7 @@ export class CharDetailsComponent implements OnInit {
       () => {
         toast('Sauvegardé', 3000, 'green');
         this.updateMetadata();
-        if (updateLeftMenu) {
+        if (updateLeftMenu === true) {
           this.appComponent.updateCharList();
         }
       },
