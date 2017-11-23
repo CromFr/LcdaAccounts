@@ -48,7 +48,7 @@
           <ul>
             <li class="char-link" *ngFor="let character of charList" routerLinkActive="grey-active">
               <a [routerLink]="['/', accountToBrowse, 'vault', character.bicFileName]" (click)="closeSideNav()" class="activable">
-                <div class="title">{{character.name}} <i *ngIf="character.metadata.isPublic" class="material-icons">public</i></div>
+                <div class="title">{{character.name}} ({{character.level}}) <i *ngIf="character.metadata.isPublic" class="material-icons">public</i></div>
                 <div class="subtitle truncate">{{character.metadata.subTitle}}</div>
               </a>
             </li>
