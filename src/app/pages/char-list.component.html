@@ -15,14 +15,14 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let character of appComponent.charList">
-				<td>
+				<td class="public-icon flow-text">
 					<span *ngIf="character.metadata?.isPublic === true" class="tooltipped" materialize="tooltip" data-position="right" data-tooltip="Personnage public"><i class="material-icons left">public</i></span>
 				</td>
 				<td>
 					<a class="flow-text" (click)="gotoCharDetails(character, false)">{{character.name}}</a>
 					<span style="margin-left: 1em;">
 						<ng-container *ngFor="let cl of character.classes">
-							<img style="height: 75%; vertical-align: middle;" src="/assets/nwn2/icons/{{cl.icon}}.png" title="{{cl.name}}"/>
+							<img class="class-icon" src="/assets/nwn2/icons/{{cl.icon}}.png" title="{{cl.name}}"/>
 						</ng-container>
 					</span>
 					<br/>
@@ -61,7 +61,7 @@
 					<a class="flow-text" (click)="gotoCharDetails(character, true)">{{character.name}}</a>
 					<span style="margin-left: 1em;">
 						<ng-container *ngFor="let cl of character.classes">
-							<img style="height: 75%; vertical-align: middle;" src="/assets/nwn2/icons/{{cl.icon}}.png" title="{{cl.name}}"/>
+							<img class="class-icon" src="/assets/nwn2/icons/{{cl.icon}}.png" title="{{cl.name}}"/>
 						</ng-container>
 					</span>
 					<br/>

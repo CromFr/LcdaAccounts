@@ -6,7 +6,8 @@ import { ApiService, LightCharacter } from '../api.service';
 import { AppComponent } from '../app.component';
 
 @Component({
-    templateUrl: './char-list.component.html'
+  templateUrl: './char-list.component.html'
+  styleUrls: [ './char-list.component.scss' ]
 })
 export class CharListComponent implements OnInit {
 
