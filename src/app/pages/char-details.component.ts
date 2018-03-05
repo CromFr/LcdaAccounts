@@ -234,6 +234,7 @@ export class CharDetailsComponent implements OnInit {
     }
   ];
   public featCategories = [
+    { value: 'HISTORY_FT_CAT',       name: 'Traits de personnalité'},
     { value: 'BACKGROUND_FT_CAT',    name: 'Dons historiques'},
     { value: 'GENERAL_FT_CAT',       name: 'Dons généraux'},
     { value: 'PROFICIENCY_FT_CAT',   name: 'Dons d\'armes et armures'},
@@ -244,7 +245,6 @@ export class CharDetailsComponent implements OnInit {
     { value: 'SKILLNSAVE_FT_CAT',    name: 'Dons de compétences et de sauvegarde'},
     { value: 'RACIALABILITY_FT_CAT', name: 'Aptitudes raciales'},
     { value: 'HERITAGE_FT_CAT',      name: 'Dons d\'héritage'},
-    { value: 'HISTORY_FT_CAT',       name: 'Traits de personnalité'},
     { value: 'CLASSABILITY_FT_CAT',  name: 'Pouvoirs de classe'},
     { value: 'EPIC_FT_CAT',          name: 'Dons épiques'},
     { value: 'TEAMWORK_FT_CAT',      name: 'Dons d\'équipe'},
