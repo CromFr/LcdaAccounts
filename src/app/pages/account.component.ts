@@ -27,8 +27,11 @@ export class AccountComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.account = this.route.snapshot.paramMap.get('account');
-    this.updateTokenList();
+    this.route.paramMap.subscribe((newParamMap) => {
+
+      this.account = newParamMap.get('account');
+      this.updateTokenList();
+    });
   }
 
   private updateTokenList(): void {

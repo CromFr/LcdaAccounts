@@ -84,4 +84,9 @@ export class AppComponent implements OnInit {
   closeSideNav(): void {
     $('#sidebar').sideNav('hide');
   }
+
+
+  onAccountToBrowseSet(): void {
+    this.updateCharList();
+  }
 }
