@@ -16,7 +16,7 @@ export class RegisterTokenComponent implements OnInit {
     const redirectTarget = url.searchParams.get('account-redir');
 
     localStorage.setItem('auth-token', tokenValue);
-    window.location.pathname = redirectTarget;
+    window.location = redirectTarget;
   }
 
 }
