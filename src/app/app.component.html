@@ -42,7 +42,8 @@
   <li *ngIf="user.account !== ''" routerLinkActive="active">
     <ul class="collapsible collapsible-accordion" materialize="collapsible" data-collapsible="accordion">
       <li>
-        <a routerLink="/{{accountToBrowse}}/vault/" (click)="closeSideNav()" class="activable">Personnages</a>
+        <a routerLink="/{{accountToBrowse}}/vault/" (click)="closeSideNav()" class="activable">
+          <i class="material-icons left">face</i>Personnages</a>
         <i class="collapsible-header material-icons">arrow_drop_down</i>
         <div class="collapsible-body">
           <ul>
