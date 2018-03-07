@@ -70,7 +70,6 @@ export module Character {
     diffMax: number;
 
     lootedChests: boolean[];
-    killedBoss: boolean[];
     unlockedDiff: number;
   }
 }

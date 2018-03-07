@@ -248,8 +248,6 @@
 					<td><span class="flow-text">{{dungeon.name}}</span><br/><em class="grey-text">{{dungeon.areaName}}</em></td>
 
 					<td *ngFor="let diff of difficulties" class="{{diff.color}} lighten-3" [ngClass]="{grey: dungeon.diffMax < diff.id}">
-						<i *ngIf="dungeon.killedBoss[diff.id] === true" class="ra ra-skull tooltipped"
-							materialize="tooltip" data-tooltip="Boss tué"></i>
 						<i *ngIf="dungeon.lootedChests[diff.id] === true" class="ra ra-trophy tooltipped"
 							materialize="tooltip" data-tooltip="Kinder récupéré"></i>
 						<i *ngIf="dungeon.diffMax >= diff.id &amp;&amp; dungeon.unlockedDiff < diff.id" class="ra ra-interdiction tooltipped"
