@@ -14,6 +14,16 @@
 	}
 }
 
+img.feat {
+	border-radius: 4px;
+	border: #ccc 2px solid;
+	background-color: #ccc;
+	&.feat-player {
+		border-color: #c26aff;
+		background-color: #c26aff;
+	}
+}
+
 #details-feats, #details-skills {
 	table tr td:first-child {
 		padding-top: 3px;
@@ -50,7 +60,7 @@
 			}
 		}
 		.collapsible-body {
-			border-left: 1px solid #000;
+			border-left: 0.3em solid #000;
 		}
 
 		.class0 {
@@ -76,7 +86,7 @@
 
 		img.small-icon {
 			vertical-align: middle;
-			height: 20px;
+			height: 24px;
 		}
 		table > tbody > tr > td {
 			vertical-align: top;

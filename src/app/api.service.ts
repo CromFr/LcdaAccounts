@@ -31,6 +31,7 @@ export module Character {
     name: string;
     category: string;
     icon: string;
+    automatic: boolean;
   }
   export interface Skill {
     name: string;
@@ -45,6 +46,7 @@ export module Character {
   }
   export interface Level {
     classIndex: number;
+    classLevel: number;
     ability: string;
     skills: LevelingSkill[];
     featIndices: number[];

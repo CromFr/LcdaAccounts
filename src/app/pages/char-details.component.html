@@ -145,7 +145,11 @@
 			<ng-container *ngFor="let cat of featCategories">
 				<tr *ngIf="featList(cat.value).length > 0"><th colspan="2">{{cat.name}}</th></tr>
 				<tr *ngFor="let feat of featList(cat.value)">
-					<td><img src="/assets/nwn2/icons/{{feat.icon}}.png"/></td>
+					<td>
+						<img class="feat" [ngClass]="{'feat-player': !feat.automatic}"
+							title="{{ feat.automatic? 'Don acquis via race / classe' : 'Don choisi'}}"
+							src="/assets/nwn2/icons/{{feat.icon}}.png"/>
+					</td>
 					<td>{{feat.name}}</td>
 				</tr>
 			</ng-container>
@@ -171,7 +175,7 @@
 				<div class="collapsible-header">
 					<div class="level-id flow-text">{{i+1}}</div>
 					<img src="/assets/nwn2/icons/{{character.classes[lvl.classIndex].icon}}.png"/>
-					<div class="level-class-name">{{character.classes[lvl.classIndex].name}}</div>
+					<div class="level-class-name">{{character.classes[lvl.classIndex].name}} {{lvl.classLevel}}</div>
 				</div>
 				<div class="collapsible-body">
 					<div *ngIf="lvl.ability !== ''">
@@ -196,7 +200,10 @@
 								<td>
 									<ul>
 										<li *ngFor="let featIndex of lvl.featIndices">
-											<img class="small-icon" src="/assets/nwn2/icons/{{character.feats[featIndex].icon}}.png"/> {{character.feats[featIndex].name}}
+											<img class="small-icon feat" [ngClass]="{'feat-player': !character.feats[featIndex].automatic}"
+												title="{{ character.feats[featIndex].automatic? 'Don acquis via race / classe' : 'Don choisi'}}"
+												src="/assets/nwn2/icons/{{character.feats[featIndex].icon}}.png"/>
+											{{character.feats[featIndex].name}}
 										</li>
 									</ul>
 								</td>
