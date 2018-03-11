@@ -91,7 +91,6 @@ export class AppComponent implements OnInit {
   onAccountToBrowseSet(): void {
     this.apiService.getAccountExists(this.accountToBrowseField).subscribe(
       (exists) => {
-        console.log(exists);
         if (exists === true) {
           this.accountToBrowse = this.accountToBrowseField;
           toast('Selection du compte ' + this.accountToBrowse, 5000, 'green');
