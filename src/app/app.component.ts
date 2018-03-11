@@ -27,12 +27,14 @@ export class AppComponent implements OnInit {
 
   public charList: LightCharacter[];
 
+  public accountToBrowseField: string;
 
   ngOnInit(): void {
     this.apiService.getUser().subscribe(
       data => {
         this.user = data;
         this.accountToBrowse = data.account;
+        this.accountToBrowseField = this.accountToBrowse;
 
         if (this.user.account !== '') {
           this.updateCharList();
@@ -87,6 +89,20 @@ export class AppComponent implements OnInit {
 
 
   onAccountToBrowseSet(): void {
-    this.updateCharList();
+    this.apiService.getAccountExists(this.accountToBrowseField).subscribe(
+      (exists) => {
+        console.log(exists);
+        if (exists === true) {
+          this.accountToBrowse = this.accountToBrowseField;
+          toast('Selection du compte ' + this.accountToBrowse, 5000, 'green');
+          this.updateCharList();
+        } else {
+          toast('Compte introuvable !', 5000, 'red darken-3');
+        }
+      },
+      err => {
+        console.log(err);
+      });
+
   }
 }

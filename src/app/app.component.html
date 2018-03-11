@@ -30,7 +30,7 @@
 </div>
 <ul id="sidebar" class="side-nav fixed">
   <li class="admin-browse-account" *ngIf="user.isAdmin">
-    <input type="text" [(ngModel)]="accountToBrowse" (keyup.enter)="onAccountToBrowseSet()">
+    <input type="text" [(ngModel)]="accountToBrowseField" (keyup.enter)="onAccountToBrowseSet()">
   </li>
   <li *ngIf="user.account !== ''" routerLinkActive="active">
     <a routerLink="/{{accountToBrowse}}/account/" (click)="closeSideNav()" class="activable">
