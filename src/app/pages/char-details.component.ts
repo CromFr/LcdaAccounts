@@ -82,7 +82,15 @@ export class CharDetailsComponent implements OnInit {
   }
 
   downloadLink(): string {
-    return environment.api_url + '/' + (this.backupChar ? 'backupvault' : 'vault') + '/' + this.account + '/' + this.bicFileName + '/download';
+    const url = new URL(
+      '/' + (this.backupChar ? 'backupvault' : 'vault') + '/' + this.account + '/' + this.bicFileName + '/download',
+      environment.api_url);
+
+    if (this.appComponent.user.isAdmin && this.account !== this.appComponent.user.account) {
+      url.searchParams.set('private-token', localStorage.getItem('auth-token'));
+    }
+
+    return url.href;
   }
 
   abilityModifier(value: number): string {
